@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ATHANDWE LOAN</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f3f6f9;margin:0;color:#17202a}
+header{background:#123b5d;color:white;padding:22px 16px;text-align:center}
+main{max-width:760px;margin:auto;padding:16px}
+.card{background:white;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 10px #0001}
+input,select,button,textarea{width:100%;box-sizing:border-box;padding:12px;margin:7px 0;border:1px solid #ccd5dd;border-radius:9px;font-size:16px}
+button{background:#123b5d;color:white;border:0;font-weight:bold;cursor:pointer}
+.secondary{background:#71808d}.danger{background:#a52b2b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.result{font-size:18px;line-height:1.7}
+.small{font-size:13px;color:#5f6b73}
+.hidden{display:none}
+nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+h2{margin-top:4px}
+</style>
+</head>
+<body>
+<header><h1>ATHANDWE LOAN</h1><div>Online Loan Application</div></header>
+<main>
+<div class="card">
+<nav>
+<button onclick="show('apply')">Apply for Loan</button>
+<button class="secondary" onclick="show('topup')">Top-Up</button>
+<button class="secondary" onclick="show('calculator')">Calculator</button>
+<button class="secondary" onclick="show('settings')">Settings</button>
+</nav>
+</div>
+
+<section id="apply" class="card">
+<h2>Customer Application</h2>
+<input id="name" placeholder="Full name">
+<input id="phone" placeholder="Mobile number">
+<input id="idno" placeholder="ID number">
+<div class="grid"><input id="amount" type="number" min="0" placeholder="Loan amount (R)"><input id="months" type="number" min="1" value="3" placeholder="Term (months)"></div>
+<input id="income" type="number" min="0" placeholder="Monthly income (R)">
+<select id="purpose"><option>Personal</option><option>Emergency</option><option>Education</option><option>Business</option><option>Other</option></select>
+<label>Upload supporting document</label><input id="doc" type="file" accept=".pdf,.jpg,.jpeg,.png">
+<button onclick="calculate('applyResult')">Calculate & Continue</button>
+<div id="applyResult" class="result"></div>
+</section>
+
+<section id="topup" class="card hidden">
+<h2>Loan Top-Up Request</h2>
+<input id="topName" placeholder="Full name">
+<input id="topPhone" placeholder="Mobile number">
+<input id="balance" type="number" min="0" placeholder="Current outstanding balance (R)">
+<input id="topAmount" type="number" min="0" placeholder="Requested top-up amount (R)">
+<button onclick="topup()">Calculate Top-Up</button>
+<div id="topResult" class="result"></div>
+</section>
+
+<section id="calculator" class="card hidden">
+<h2>Loan Calculator</h2>
+<input id="calcAmount" type="number" min="0" placeholder="Loan amount (R)">
+<input id="calcMonths" type="number" min="1" value="3" placeholder="Months">
+<button onclick="calculate('calcResult',true)">Calculate</button>
+<div id="calcResult" class="result"></div>
+</section>
+
+<section id="settings" class="card hidden">
+<h2>Business Settings</h2>
+<p class="small">Set the percentages used by this calculator. Before using this for real lending, verify that your final rates and fees comply with applicable South African credit law and your licence/registration requirements.</p>
+<label>Interest fee (%)</label><input id="interest" type="number" step="0.01">
+<label>Initiation fee (%)</label><input id="initiation" type="number" step="0.01">
+<label>Service fee (%)</label><input id="service" type="number" step="0.01">
+<button onclick="saveSettings()">Save Settings</button>
+<button class="danger" onclick="resetSettings()">Reset</button>
+<div id="saveMsg" class="small"></div>
+</section>
+
+<section class="card">
+<h2>Terms & Conditions</h2>
+<p class="small">Loan applications are subject to assessment and approval. Information supplied must be accurate and complete. Fees, interest, repayment dates and total cost of credit must be disclosed to the customer before agreement. A top-up is subject to eligibility and approval. Customer documents must be handled securely and only for lawful business purposes. This demo calculator does not itself constitute a credit agreement or guarantee approval.</p>
+</section>
+</main>
+<script>
+const defaults={interest:10,initiation:0,service:5};
+function settings(){return JSON.parse(localStorage.getItem('athandweSettings')||JSON.stringify(defaults))}
+function load(){let s=settings(); interest.value=s.interest; initiation.value=s.initiation; service.value=s.service}
+function saveSettings(){let s={interest:+interest.value||0,initiation:+initiation.value||0,service:+service.value||0};localStorage.setItem('athandweSettings',JSON.stringify(s));saveMsg.textContent='Settings saved on this device.'}
+function resetSettings(){localStorage.removeItem('athandweSettings');load();saveMsg.textContent='Settings reset.'}
+function show(id){document.querySelectorAll('section').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo(0,0)}
+function money(x){return 'R '+Number(x).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function calc(a,m){let s=settings();let interestFee=a*(s.interest/100)*m;let init=a*(s.initiation/100);let serviceFee=a*(s.service/100)*m;let total=a+interestFee+init+serviceFee;return {interestFee,init,serviceFee,total,monthly:total/m}}
+function calculate(out,fromCalc=false){let a=+(fromCalc?calcAmount.value:amount.value);let m=+(fromCalc?calcMonths.value:months.value);if(!a||!m){document.getElementById(out).innerHTML='Please enter the amount and term.';return}let r=calc(a,m);document.getElementById(out).innerHTML=`Principal: ${money(a)}<br>Interest fee: ${money(r.interestFee)}<br>Initiation fee: ${money(r.init)}<br>Service fee: ${money(r.serviceFee)}<hr><b>Total repayment: ${money(r.total)}</b><br><b>Equal monthly instalment: ${money(r.monthly)}</b>${fromCalc?'':'<br><button onclick="submitApp()">Submit Application</button>'}`}
+function submitApp(){let data={name:name.value,phone:phone.value,id:idno.value,amount:+amount.value,months:+months.value,income:+income.value,purpose:purpose.value,date:new Date().toISOString()};localStorage.setItem('lastApplication',JSON.stringify(data));alert('Application captured on this device. Connect a secure backend before accepting real customer applications.')}
+function topup(){let b=+balance.value,t=+topAmount.value;if(!b||!t){topResult.textContent='Enter the outstanding balance and top-up amount.';return}let r=calc(t,3);topResult.innerHTML=`Requested top-up: ${money(t)}<br>Estimated new balance before fees: ${money(b+t)}<br>Estimated top-up repayment over 3 months: ${money(r.total)}<br>Estimated monthly top-up instalment: ${money(r.monthly)}`}
+load();
+</script>
+</body>
+</html>
