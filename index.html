@@ -1,98 +1,845 @@
-<!doctype ht
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ATHANDWE LOAN</title>
+<title>ATHANDWE LOANS</title>
+
 <style>
-body{font-family:Arial,sans-serif;background:#f3f6f9;margin:0;color:#17202a}
-header{background:#123b5d;color:white;padding:22px 16px;text-align:center}
-main{max-width:760px;margin:auto;padding:16px}
-.card{background:white;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 10px #0001}
-input,select,button,textarea{width:100%;box-sizing:border-box;padding:12px;margin:7px 0;border:1px solid #ccd5dd;border-radius:9px;font-size:16px}
-button{background:#123b5d;color:white;border:0;font-weight:bold;cursor:pointer}
-.secondary{background:#71808d}.danger{background:#a52b2b}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:600px){.grid{grid-template-columns:1fr}}
-.result{font-size:18px;line-height:1.7}
-.small{font-size:13px;color:#5f6b73}
-.hidden{display:none}
-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-h2{margin-top:4px}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f2f5f7;
+  color:#222;
+}
+
+header{
+  background:#123b5d;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+header h1{
+  margin:0 0 8px;
+}
+
+header p{
+  margin:0;
+}
+
+main{
+  max-width:760px;
+  margin:auto;
+  padding:15px;
+}
+
+nav{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:15px;
+}
+
+nav button{
+  margin:0;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:14px;
+  box-shadow:0 2px 8px #0001;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin-top:12px;
+  margin-bottom:5px;
+}
+
+input,select,textarea,button{
+  width:100%;
+  padding:13px;
+  font-size:16px;
+  border-radius:8px;
+}
+
+input,select,textarea{
+  border:1px solid #bbb;
+}
+
+button{
+  border:0;
+  background:#123b5d;
+  color:white;
+  font-weight:bold;
+  margin-top:12px;
+}
+
+button.secondary{
+  background:#71808d;
+}
+
+button.danger{
+  background:#a33;
+}
+
+.result{
+  font-size:18px;
+  line-height:1.7;
+}
+
+.small{
+  font-size:13px;
+  color:#5f6b73;
+}
+
+.hidden{
+  display:none;
+}
+
+.success{
+  background:#e5f6e9;
+  padding:12px;
+  border-radius:8px;
+  margin-top:12px;
+}
+
+.warning{
+  background:#fff4d6;
+  padding:12px;
+  border-radius:8px;
+  margin-top:12px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+hr{
+  border:0;
+  border-top:1px solid #ddd;
+  margin:20px 0;
+}
+
+@media(max-width:600px){
+  nav{
+    grid-template-columns:1fr;
+  }
+
+  .row{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
+
 <body>
-<header><h1>ATHANDWE LOAN</h1><div>Online Loan Application</div></header>
+
+<header>
+<h1>ATHANDWE LOANS</h1>
+<p>Online Loan Application</p>
+</header>
+
 <main>
-<div class="card">
+
 <nav>
-<button onclick="show('apply')">Apply for Loan</button>
-<button class="secondary" onclick="show('topup')">Top-Up</button>
-<button class="secondary" onclick="show('calculator')">Calculator</button>
-<button class="secondary" onclick="show('settings')">Settings</button>
+<button onclick="showSection('apply')">Apply for Loan</button>
+<button onclick="showSection('calculator')">Calculator</button>
+<button onclick="showSection('topup')">Top Up</button>
+<button onclick="showSection('settings')">Settings</button>
+<button onclick="showSection('terms')">Terms</button>
+<button onclick="showSection('about')">About</button>
 </nav>
-</div>
+
+
+<!-- APPLICATION -->
 
 <section id="apply" class="card">
-<h2>Customer Application</h2>
-<input id="name" placeholder="Full name">
-<input id="phone" placeholder="Mobile number">
-<input id="idno" placeholder="ID number">
-<div class="grid"><input id="amount" type="number" min="0" placeholder="Loan amount (R)"><input id="months" type="number" min="1" value="3" placeholder="Term (months)"></div>
-<input id="income" type="number" min="0" placeholder="Monthly income (R)">
-<select id="purpose"><option>Personal</option><option>Emergency</option><option>Education</option><option>Business</option><option>Other</option></select>
-<label>Upload supporting document</label><input id="doc" type="file" accept=".pdf,.jpg,.jpeg,.png">
-<button onclick="calculate('applyResult')">Calculate & Continue</button>
-<div id="applyResult" class="result"></div>
+
+<h2>Loan Application</h2>
+
+<p class="small">
+Please complete all required information.
+</p>
+
+<label>Full Name</label>
+<input id="name" type="text" placeholder="Enter full name">
+
+<label>Phone Number</label>
+<input id="phone" type="tel" placeholder="Enter phone number">
+
+<label>ID Number</label>
+<input id="idNumber" type="text" placeholder="Enter ID number">
+
+<label>Email Address</label>
+<input id="email" type="email" placeholder="Enter email address">
+
+<label>Home Address</label>
+<textarea id="address" placeholder="Enter your address"></textarea>
+
+<label>Employment Status</label>
+<select id="employment">
+<option value="">Select</option>
+<option>Employed</option>
+<option>Self-employed</option>
+<option>Unemployed</option>
+<option>Other</option>
+</select>
+
+<label>Monthly Income (R)</label>
+<input id="income" type="number" min="0" placeholder="Monthly income">
+
+<label>Loan Amount (R)</label>
+<input id="loanAmount" type="number" min="0" placeholder="Enter amount">
+
+<label>Loan Term</label>
+<select id="term">
+<option value="1">1 Month</option>
+<option value="2">2 Months</option>
+<option value="3" selected>3 Months</option>
+<option value="4">4 Months</option>
+<option value="5">5 Months</option>
+<option value="6">6 Months</option>
+<option value="12">12 Months</option>
+</select>
+
+<button onclick="calculateApplication()">
+Calculate Repayment
+</button>
+
+<div id="applicationResult" class="result"></div>
+
+<label>
+<input id="agree" type="checkbox" style="width:auto">
+I confirm that the information provided is correct and I accept the Terms & Conditions.
+</label>
+
+<button onclick="submitApplication()">
+Submit Loan Application
+</button>
+
+<div id="applicationMessage"></div>
+
 </section>
 
-<section id="topup" class="card hidden">
-<h2>Loan Top-Up Request</h2>
-<input id="topName" placeholder="Full name">
-<input id="topPhone" placeholder="Mobile number">
-<input id="balance" type="number" min="0" placeholder="Current outstanding balance (R)">
-<input id="topAmount" type="number" min="0" placeholder="Requested top-up amount (R)">
-<button onclick="topup()">Calculate Top-Up</button>
-<div id="topResult" class="result"></div>
-</section>
+
+<!-- CALCULATOR -->
 
 <section id="calculator" class="card hidden">
+
 <h2>Loan Calculator</h2>
-<input id="calcAmount" type="number" min="0" placeholder="Loan amount (R)">
-<input id="calcMonths" type="number" min="1" value="3" placeholder="Months">
-<button onclick="calculate('calcResult',true)">Calculate</button>
+
+<label>Loan Amount (R)</label>
+<input id="calcAmount" type="number" min="0" placeholder="Example: 5000">
+
+<label>Loan Term</label>
+<select id="calcTerm">
+<option value="1">1 Month</option>
+<option value="2">2 Months</option>
+<option value="3" selected>3 Months</option>
+<option value="4">4 Months</option>
+<option value="5">5 Months</option>
+<option value="6">6 Months</option>
+<option value="12">12 Months</option>
+</select>
+
+<button onclick="calculateLoan()">
+Calculate
+</button>
+
 <div id="calcResult" class="result"></div>
+
 </section>
+
+
+<!-- TOP UP -->
+
+<section id="topup" class="card hidden">
+
+<h2>Loan Top Up Request</h2>
+
+<p>
+Existing customers can use this section to request a loan top up.
+</p>
+
+<label>Full Name</label>
+<input id="topName" type="text">
+
+<label>Phone Number</label>
+<input id="topPhone" type="tel">
+
+<label>Current Loan Balance (R)</label>
+<input id="balance" type="number" min="0">
+
+<label>Top Up Amount (R)</label>
+<input id="topAmount" type="number" min="0">
+
+<label>Reason for Top Up</label>
+<textarea id="topReason"></textarea>
+
+<button onclick="submitTopup()">
+Submit Top Up Request
+</button>
+
+<div id="topupMessage"></div>
+
+</section>
+
+
+<!-- SETTINGS -->
 
 <section id="settings" class="card hidden">
+
 <h2>Business Settings</h2>
-<p class="small">Set the percentages used by this calculator. Before using this for real lending, verify that your final rates and fees comply with applicable South African credit law and your licence/registration requirements.</p>
-<label>Interest fee (%)</label><input id="interest" type="number" step="0.01">
-<label>Initiation fee (%)</label><input id="initiation" type="number" step="0.01">
-<label>Service fee (%)</label><input id="service" type="number" step="0.01">
-<button onclick="saveSettings()">Save Settings</button>
-<button class="danger" onclick="resetSettings()">Reset</button>
-<div id="saveMsg" class="small"></div>
+
+<p class="small">
+Set your own percentages. These settings are stored on this device.
+</p>
+
+<label>Interest Fee (%)</label>
+<input id="interest" type="number" step="0.01" min="0">
+
+<label>Initiation Fee (%)</label>
+<input id="initiation" type="number" step="0.01" min="0">
+
+<label>Service Fee (%)</label>
+<input id="service" type="number" step="0.01" min="0">
+
+<button onclick="saveSettings()">
+Save Settings
+</button>
+
+<button class="danger" onclick="resetSettings()">
+Reset Settings
+</button>
+
+<div id="saveMessage"></div>
+
+<hr>
+
+<h3>Current Settings</h3>
+
+<div id="currentSettings"></div>
+
 </section>
 
-<section class="card">
+
+<!-- TERMS -->
+
+<section id="terms" class="card hidden">
+
 <h2>Terms & Conditions</h2>
-<p class="small">Loan applications are subject to assessment and approval. Information supplied must be accurate and complete. Fees, interest, repayment dates and total cost of credit must be disclosed to the customer before agreement. A top-up is subject to eligibility and approval. Customer documents must be handled securely and only for lawful business purposes. This demo calculator does not itself constitute a credit agreement or guarantee approval.</p>
+
+<p>
+By submitting a loan application, the applicant confirms that the
+information supplied is accurate and complete.
+</p>
+
+<p>
+Loan approval is subject to assessment and approval by ATHANDWE LOANS.
+Submitting an application does not guarantee that a loan will be approved.
+</p>
+
+<p>
+The applicable interest, initiation and service fees will be displayed
+before the customer accepts the loan agreement.
+</p>
+
+<p>
+The customer is responsible for making repayments according to the
+agreed repayment schedule.
+</p>
+
+<p>
+Customers must provide correct personal and contact information and
+should notify ATHANDWE LOANS if their information changes.
+</p>
+
+<p>
+A top-up request is subject to approval and may depend on the customer's
+existing loan balance and repayment history.
+</p>
+
+<p>
+These terms should be reviewed and updated to match the final legal
+requirements applicable to your lending business before the system is
+used commercially.
+</p>
+
 </section>
+
+
+<!-- ABOUT -->
+
+<section id="about" class="card hidden">
+
+<h2>About ATHANDWE LOANS</h2>
+
+<p>
+Welcome to ATHANDWE LOANS.
+</p>
+
+<p>
+This online system allows customers to submit loan applications,
+calculate estimated repayments and request loan top ups.
+</p>
+
+<p>
+For assistance, please contact ATHANDWE LOANS using the business
+contact details provided by the business.
+</p>
+
+</section>
+
+
 </main>
+
+
 <script>
-const defaults={interest:10,initiation:0,service:5};
-function settings(){return JSON.parse(localStorage.getItem('athandweSettings')||JSON.stringify(defaults))}
-function load(){let s=settings(); interest.value=s.interest; initiation.value=s.initiation; service.value=s.service}
-function saveSettings(){let s={interest:+interest.value||0,initiation:+initiation.value||0,service:+service.value||0};localStorage.setItem('athandweSettings',JSON.stringify(s));saveMsg.textContent='Settings saved on this device.'}
-function resetSettings(){localStorage.removeItem('athandweSettings');load();saveMsg.textContent='Settings reset.'}
-function show(id){document.querySelectorAll('section').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo(0,0)}
-function money(x){return 'R '+Number(x).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function calc(a,m){let s=settings();let interestFee=a*(s.interest/100)*m;let init=a*(s.initiation/100);let serviceFee=a*(s.service/100)*m;let total=a+interestFee+init+serviceFee;return {interestFee,init,serviceFee,total,monthly:total/m}}
-function calculate(out,fromCalc=false){let a=+(fromCalc?calcAmount.value:amount.value);let m=+(fromCalc?calcMonths.value:months.value);if(!a||!m){document.getElementById(out).innerHTML='Please enter the amount and term.';return}let r=calc(a,m);document.getElementById(out).innerHTML=`Principal: ${money(a)}<br>Interest fee: ${money(r.interestFee)}<br>Initiation fee: ${money(r.init)}<br>Service fee: ${money(r.serviceFee)}<hr><b>Total repayment: ${money(r.total)}</b><br><b>Equal monthly instalment: ${money(r.monthly)}</b>${fromCalc?'':'<br><button onclick="submitApp()">Submit Application</button>'}`}
-function submitApp(){let data={name:name.value,phone:phone.value,id:idno.value,amount:+amount.value,months:+months.value,income:+income.value,purpose:purpose.value,date:new Date().toISOString()};localStorage.setItem('lastApplication',JSON.stringify(data));alert('Application captured on this device. Connect a secure backend before accepting real customer applications.')}
-function topup(){let b=+balance.value,t=+topAmount.value;if(!b||!t){topResult.textContent='Enter the outstanding balance and top-up amount.';return}let r=calc(t,3);topResult.innerHTML=`Requested top-up: ${money(t)}<br>Estimated new balance before fees: ${money(b+t)}<br>Estimated top-up repayment over 3 months: ${money(r.total)}<br>Estimated monthly top-up instalment: ${money(r.monthly)}`}
-load();
-</script>
-</body>
-</html>
+
+const defaults = {
+  interest:10,
+  initiation:0,
+  service:0
+};
+
+
+function getSettings(){
+
+  try{
+    return JSON.parse(
+      localStorage.getItem("athandweSettings")
+    ) || defaults;
+  }catch(e){
+    return defaults;
+  }
+
+}
+
+
+function money(value){
+
+  return "R " + Number(value || 0).toFixed(2);
+
+}
+
+
+function calculateValues(amount,months){
+
+  const s=getSettings();
+
+  amount=Number(amount)||0;
+  months=Number(months)||1;
+
+  const interest =
+    amount * (Number(s.interest)||0) / 100;
+
+  const initiation =
+    amount * (Number(s.initiation)||0) / 100;
+
+  const service =
+    amount * (Number(s.service)||0) / 100;
+
+  const total =
+    amount +
+    interest +
+    initiation +
+    service;
+
+  const installment =
+    total / months;
+
+  return {
+    amount,
+    months,
+    interest,
+    initiation,
+    service,
+    total,
+    installment
+  };
+
+}
+
+
+function calculateLoan(){
+
+  const amount =
+    document.getElementById("calcAmount").value;
+
+  const months =
+    document.getElementById("calcTerm").value;
+
+  const r=calculateValues(amount,months);
+
+  document.getElementById("calcResult").innerHTML=`
+
+    <hr>
+
+    <strong>Loan Summary</strong><br><br>
+
+    Loan Amount:
+    <strong>${money(r.amount)}</strong><br>
+
+    Interest Fee:
+    <strong>${money(r.interest)}</strong><br>
+
+    Initiation Fee:
+    <strong>${money(r.initiation)}</strong><br>
+
+    Service Fee:
+    <strong>${money(r.service)}</strong><br>
+
+    Total Repayment:
+    <strong>${money(r.total)}</strong><br>
+
+    Monthly Instalment:
+    <strong>${money(r.installment)}</strong>
+
+  `;
+
+}
+
+
+function calculateApplication(){
+
+  const amount =
+    document.getElementById("loanAmount").value;
+
+  const months =
+    document.getElementById("term").value;
+
+  if(!amount || Number(amount)<=0){
+
+    document.getElementById("applicationResult").innerHTML=
+      "<div class='warning'>Please enter a loan amount.</div>";
+
+    return;
+  }
+
+  const r=calculateValues(amount,months);
+
+  document.getElementById("applicationResult").innerHTML=`
+
+    <div class="success">
+
+    <strong>Estimated Repayment</strong><br><br>
+
+    Loan Amount: ${money(r.amount)}<br>
+    Interest Fee: ${money(r.interest)}<br>
+    Initiation Fee: ${money(r.initiation)}<br>
+    Service Fee: ${money(r.service)}<br>
+    Total Repayment: <strong>${money(r.total)}</strong><br>
+    Monthly Instalment: <strong>${money(r.installment)}</strong>
+
+    </div>
+
+  `;
+
+}
+
+
+function submitApplication(){
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const idNumber =
+    document.getElementById("idNumber").value.trim();
+
+  const amount =
+    document.getElementById("loanAmount").value;
+
+  const agree =
+    document.getElementById("agree").checked;
+
+  if(!name || !phone || !idNumber || !amount){
+
+    document.getElementById("applicationMessage").innerHTML=
+      "<div class='warning'>Please complete the required information.</div>";
+
+    return;
+  }
+
+  if(!agree){
+
+    document.getElementById("applicationMessage").innerHTML=
+      "<div class='warning'>Please accept the Terms & Conditions.</div>";
+
+    return;
+  }
+
+  const months =
+    document.getElementById("term").value;
+
+  const r=calculateValues(amount,months);
+
+  const application={
+    reference:
+      "ATH" + Date.now(),
+
+    name:name,
+
+    phone:phone,
+
+    idNumber:idNumber,
+
+    email:
+      document.getElementById("email").value,
+
+    address:
+      document.getElementById("address").value,
+
+    employment:
+      document.getElementById("employment").value,
+
+    income:
+      document.getElementById("income").value,
+
+    amount:Number(amount),
+
+    months:Number(months),
+
+    total:r.total,
+
+    installment:r.installment,
+
+    date:new Date().toISOString()
+
+  };
+
+  const old=
+    JSON.parse(
+      localStorage.getItem("athandweApplications") || "[]"
+    );
+
+  old.push(application);
+
+  localStorage.setItem(
+    "athandweApplications",
+    JSON.stringify(old)
+  );
+
+  document.getElementById("applicationMessage").innerHTML=`
+
+    <div class="success">
+
+    <strong>Application Submitted</strong><br><br>
+
+    Your application reference is:
+    <strong>${application.reference}</strong><br><br>
+
+    Requested amount:
+    ${money(application.amount)}<br>
+
+    Estimated total repayment:
+    ${money(application.total)}<br>
+
+    Estimated monthly instalment:
+    ${money(application.installment)}
+
+    </div>
+
+  `;
+
+}
+
+
+function submitTopup(){
+
+  const name=
+    document.getElementById("topName").value.trim();
+
+  const phone=
+    document.getElementById("topPhone").value.trim();
+
+  const balance=
+    Number(document.getElementById("balance").value);
+
+  const amount=
+    Number(document.getElementById("topAmount").value);
+
+  if(!name || !phone || !amount){
+
+    document.getElementById("topupMessage").innerHTML=
+      "<div class='warning'>Please complete the required information.</div>";
+
+    return;
+  }
+
+  const request={
+
+    reference:
+      "TOP" + Date.now(),
+
+    name:name,
+
+    phone:phone,
+
+    balance:balance,
+
+    amount:amount,
+
+    reason:
+      document.getElementById("topReason").value,
+
+    date:new Date().toISOString()
+
+  };
+
+  const old=
+    JSON.parse(
+      localStorage.getItem("athandweTopups") || "[]"
+    );
+
+  old.push(request);
+
+  localStorage.setItem(
+    "athandweTopups",
+    JSON.stringify(old)
+  );
+
+  document.getElementById("topupMessage").innerHTML=`
+
+    <div class="success">
+
+    Top Up Request Submitted.<br><br>
+
+    Reference:
+    <strong>${request.reference}</strong>
+
+    </div>
+
+  `;
+
+}
+
+
+function saveSettings(){
+
+  const settings={
+
+    interest:
+      Number(document.getElementById("interest").value),
+
+    initiation:
+      Number(document.getElementById("initiation").value),
+
+    service:
+      Number(document.getElementById("service").value)
+
+  };
+
+  localStorage.setItem(
+    "athandweSettings",
+    JSON.stringify(settings)
+  );
+
+  document.getElementById("saveMessage").innerHTML=
+    "<div class='success'>Settings saved successfully.</div>";
+
+  displaySettings();
+
+}
+
+
+function resetSettings(){
+
+  if(!confirm("Reset all fees to default values?"))
+    return;
+
+  localStorage.setItem(
+    "athandweSettings",
+    JSON.stringify(defaults)
+  );
+
+  loadSettings();
+
+  document.getElementById("saveMessage").innerHTML=
+    "<div class='success'>Settings reset.</div>";
+
+}
+
+
+function loadSettings(){
+
+  const s=getSettings();
+
+  document.getElementById("interest").value=
+    s.interest;
+
+  document.getElementById("initiation").value=
+    s.initiation;
+
+  document.getElementById("service").value=
+    s.service;
+
+  displaySettings();
+
+}
+
+
+function displaySettings(){
+
+  const s=getSettings();
+
+  document.getElementById("currentSettings").innerHTML=`
+
+    Interest Fee:
+    <strong>${s.interest}%</strong><br>
+
+    Initiation Fee:
+    <strong>${s.initiation}%</strong><br>
+
+    Service Fee:
+    <strong>${s.service}%</strong>
+
+  `;
+
+}
+
+
+function showSection(id){
+
+  const sections=[
+    "apply",
+    "calculator",
+    "topup",
+    "settings",
+    "terms",
+    "about"
+  ];
+
+  sections.forEach(function(x){
+
+    document
+      .getElementById(x)
+      .classList
+      .add("hidden");
+
+  });
+
+  document
+    .getElementById(id)
+    .classList
+    .remove("hidden");
+
+  window.scrollTo(0,0);
+
+}
+
+
+loadSettings();
+
+show
